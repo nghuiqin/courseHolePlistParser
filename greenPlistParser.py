@@ -10,7 +10,7 @@ pathOutput = './greenPLIST'
 for readFileName in os.listdir(path) :
     if not readFileName.endswith('.kml.xml'): continue
     fullname = os.path.join(path, readFileName)
-    writeFileName = readFileName.replace('.kml.xml', '_Holes_GPS_Points_Colored_Tees.plist')
+    writeFileName = readFileName.replace('Tee_Green_Position_', '').replace('.kml.xml', '_Holes_GPS_Points_Colored_Tees.plist')
     writeFilePath = os.path.join(pathOutput, writeFileName)
 
     tree = ET.parse(fullname)

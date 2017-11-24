@@ -10,7 +10,7 @@ pathOutput = './holeAreaPLIST'
 for readFileName in os.listdir(path) :
     if not readFileName.endswith('.kml.xml'): continue
     fullname = os.path.join(path, readFileName)
-    writeFileName = readFileName.replace('.kml.xml', '_Hole_Area.plist')
+    writeFileName = readFileName.replace('Hole_Area_', '').replace('.kml.xml', '_Hole_Area.plist')
     writeFilePath = os.path.join(pathOutput, writeFileName)
 
 #    print "fullname: ", fullname
