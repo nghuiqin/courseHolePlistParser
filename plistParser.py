@@ -1,6 +1,20 @@
+eadFileName = 'HoleArea.kml.xml'
+writeFileName = 'output.plist'
+
 import xml.etree.ElementTree as ET
-tree = ET.parse('HoleArea.kml.xml')
+tree = ET.parse(readFileName)
 root = tree.getroot()
+
+import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
+
+writeFile = open(writeFileName, 'w')
+
+writeFile.write('<?xml version="1.0" encoding="UTF-8"?>\n')
+writeFile.write('<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">\n')
+writeFile.write('<plist version="1.0">\n')
+writeFile.write('<dict>\n')
 
 namespace = '{http://www.opengis.net/kml/2.2}'
 document = root.find(namespace + 'Document')
@@ -13,16 +27,25 @@ for item in document.findall(namespace + 'Placemark') :
     latitude = []
     for coordinate in array :
          location = coordinate.strip().split(',')
-         long = location[0]
+         lon = location[0]
          lat = location[-1]
-         longitude.append(long)
+         longitude.append(lon)
          latitude.append(lat)
 
-    print name.text + '_latitude'
+    writeFile.write('       <key>' + name.text + '_latitude' + '</key>\n')
+    writeFile.write('       <array>\n')
     for number in latitude :
-        print number
+        writeFile.write('               <real>' + number + '</real>\n')
 
-    print name.text + '_longitude'
+    writeFile.write('       </array>\n')
+
+    writeFile.write('       <key>' + name.text + '_longitude' + '</key>\n')
+    writeFile.write('       <array>\n')
     for number in longitude :
-        print number
+        writeFile.write('               <real>' + number + '</real>\n')
+
+    writeFile.write('       </array>\n')
+
+writeFile.write('</dict>\n')
+writeFile.write('</plist>\n')
 
