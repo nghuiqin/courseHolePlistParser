@@ -1,4 +1,4 @@
-eadFileName = 'HoleArea.kml.xml'
+readFileName = 'HoleArea.kml.xml'
 writeFileName = 'output.plist'
 
 import xml.etree.ElementTree as ET
