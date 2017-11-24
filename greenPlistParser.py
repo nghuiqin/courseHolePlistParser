@@ -4,18 +4,14 @@ import sys
 reload(sys)
 sys.setdefaultencoding('utf8')
 
-path = './holeAreaXML'
-pathOutput = './holeAreaPLIST'
+path = './greenXML'
+pathOutput = './greenPLIST'
 
 for readFileName in os.listdir(path) :
     if not readFileName.endswith('.kml.xml'): continue
     fullname = os.path.join(path, readFileName)
-    writeFileName = readFileName.replace('.kml.xml', '_Hole_Area.plist')
+    writeFileName = readFileName.replace('.kml.xml', '_Holes_GPS_Points_Colored_Tees.plist')
     writeFilePath = os.path.join(pathOutput, writeFileName)
-
-#    print "fullname: ", fullname
-#    print "writeFileName: ", writeFileName
-#    print "writeFilePath: ", writeFilePath
 
     tree = ET.parse(fullname)
     root = tree.getroot()
@@ -31,31 +27,18 @@ for readFileName in os.listdir(path) :
     document = root.find(namespace + 'Document')
     for item in document.findall(namespace + 'Placemark') :
         name = item.find(namespace + 'name')
-        coordinates = item.find(namespace + 'Polygon').find(namespace + 'outerBoundaryIs').find(namespace + 'LinearRing').find(namespace + 'coordinates')
+        coordinates = item.find(namespace + 'Point').find(namespace + 'coordinates')
         array = coordinates.text.strip().split(',0')
 
-        longitude = []
-        latitude = []
+        writeFile.write('    <key>' + name.text + '</key>')
+        writeFile.write('    <array>\n')
         for coordinate in array :
             location = coordinate.strip().split(',')
             if location[0]:
                 lon = location[0]
                 lat = location[-1]
-                longitude.append(lon)
-                latitude.append(lat)
-            
-
-        writeFile.write('    <key>' + name.text + '_latitude' + '</key>\n')
-        writeFile.write('    <array>\n')
-        for number in latitude :
-            writeFile.write('        <real>' + number + '</real>\n')
-
-        writeFile.write('    </array>\n')
-
-        writeFile.write('    <key>' + name.text + '_longitude' + '</key>\n')
-        writeFile.write('    <array>\n')
-        for number in longitude :
-            writeFile.write('        <real>' + number + '</real>\n')
+                writeFile.write('        <real>' + lat + '</real>')
+                writeFile.write('        <real>' + lon + '</real>')
 
         writeFile.write('    </array>\n')
 
