@@ -30,15 +30,15 @@ for readFileName in os.listdir(path) :
         coordinates = item.find(namespace + 'Point').find(namespace + 'coordinates')
         array = coordinates.text.strip().split(',0')
 
-        writeFile.write('    <key>' + name.text + '</key>')
+        writeFile.write('    <key>' + name.text + '</key>\n')
         writeFile.write('    <array>\n')
         for coordinate in array :
             location = coordinate.strip().split(',')
             if location[0]:
                 lon = location[0]
                 lat = location[-1]
-                writeFile.write('        <real>' + lat + '</real>')
-                writeFile.write('        <real>' + lon + '</real>')
+                writeFile.write('        <real>' + lat + '</real>\n')
+                writeFile.write('        <real>' + lon + '</real>\n')
 
         writeFile.write('    </array>\n')
 
